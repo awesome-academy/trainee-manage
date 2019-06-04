@@ -27,19 +27,21 @@ class TraineeController extends Controller
      */
     public function index(Request $request)
     {
-        if (!is_null($request->check)) {
+        $languages = $this->trainee->getLanguage();
+
+        if ($request->language) {
+            $trainees = $this->trainee->filterByLanguage($request->language);
+        } elseif (!is_null($request->check)) {
             $trainees = $this->trainee->timeLeft();
 
-            return view('admin.trainees.index', compact('trainees'));
         } elseif (Gate::allows('see-trainers')) {
             $trainees = $this->trainee->myTrainee();
 
-            return view('admin.trainees.index', compact('trainees'));
         } else {
             $trainees = $this->trainee->all();
-
-            return view('admin.trainees.index', compact('trainees'));
         }
+
+        return view('admin.trainees.index', compact('trainees', 'languages'));
     }
 
     /**

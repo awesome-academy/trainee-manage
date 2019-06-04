@@ -17,6 +17,16 @@
                                     <li><a data-action="close"><i class="ft-x"></i></a></li>
                                 </ul>
                             </div>
+                            <div class="row">
+                                <div class="form-group col-4 ml-auto">
+                                    <select id="select_language" class="form-control border-info" data-url="{!! http_build_query(Request::except('language')) !!}">
+                                        <option value="0">{{ __('All') }}</option>
+                                        @foreach ($languages as $language)
+                                            <option value="{{ $language->id }}" {{ request()->query('language') == $language->id ? 'selected' : '' }}>{{ $language->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <div class="btn btn-outline-info btn-glow float-right mt-2">
                                 <a href="{{ route('trainees.create') }}"> {{ __('Create') }}</a>
                             </div>
@@ -90,3 +100,6 @@
         </div>
     </div>
 @endsection
+@push('js')
+    <script src="{{ mix('js/filter.js') }}"></script>
+@endpush

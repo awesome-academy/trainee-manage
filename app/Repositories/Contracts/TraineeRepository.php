@@ -159,6 +159,10 @@ class TraineeRepository extends BaseRepository implements TraineeRepositoryInter
 
     public function getTraineesForCourse()
     {
+        if (isset(auth()->user()->trainer->id)) {
+            return $this->model->where('course_id', 0)->where('trainer_id', auth()->user()->trainer->id)->with('user')->get();
+        }
+
         return $this->model->where('course_id', 0)->with('user')->get();
     }
 
@@ -270,5 +274,14 @@ class TraineeRepository extends BaseRepository implements TraineeRepositoryInter
     public function myTrainee()
     {
         return $this->model->where('trainer_id', auth()->user()->trainer->id)->get();
+    }
+
+    public function filterByLanguage($language_id)
+    {
+        if (isset(auth()->user()->trainer->id)) {
+            return $this->model->where('language_id', $language_id)->where('trainer_id', auth()->user()->trainer->id)->get();
+        }
+
+        return $this->model->where('language_id', $language_id)->get();
     }
 }

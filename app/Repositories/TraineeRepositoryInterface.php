@@ -84,4 +84,5 @@ interface TraineeRepositoryInterface
     public function getCourse();
     public function timeLeft();
     public function myTrainee();
+    public function filterByLanguage($language_id);
 }
